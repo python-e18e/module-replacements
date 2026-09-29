@@ -4,7 +4,7 @@ Add a distribution name only when there is a concrete alternative. Include all e
 
 Use maintainer documentation, source, changelogs, Python documentation, and versioned PyPI metadata. Record the research date and exact successor release when setting a package's Python floor. Verify the floor against the APIs actually suggested, not just the version that introduced a module. Explain whether an older supported interpreter still needs a dependency marker.
 
-Use `drop-in` only for a dependency-only change within the documented scope; `import-only` for import rewrites; `conditional` for a limited compatible subset; and `code-change` for broader migrations. State which code must change and what behavior must be tested. Maintained packages can be architectural alternatives without being obsolete. Do not present performance claims without a relevant benchmark.
+Use `drop-in` only for a dependency-only change within the documented scope; `import-only` for import rewrites; `conditional` for a limited compatible subset; and `code-change` for broader application or tooling migrations. State which code, configuration, or workflow must change and what behavior must be tested. Maintained packages can be architectural alternatives without being obsolete. Do not present performance claims without a relevant benchmark.
 
 For multiple targets, explain when to choose each. If only a subset of the old package is covered, say what must remain or be rewritten before dependency removal. Show a real usage example or a reproducible probe for surprising compatibility differences; do not infer whole-package parity from similar function names.
 

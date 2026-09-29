@@ -125,6 +125,19 @@
     ]
   },
   {
+    "name": "black",
+    "alternative": "ruff",
+    "minimum_python": "3.7",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires formatter configuration and CI changes: use ruff format, align target Python and formatting settings, and inspect a formatting-only diff. Ruff aims for Black compatibility but documents differences; do not alternate formatters on the same files. The installation floor is for Ruff 0.16.9.",
+    "source": "https://docs.astral.sh/ruff/formatter/",
+    "references": [
+      "https://docs.astral.sh/ruff/formatter/black/",
+      "https://pypi.org/project/ruff/0.16.9/"
+    ]
+  },
+  {
     "name": "cached-property",
     "alternative": "functools.cached_property",
     "minimum_python": "3.8",
@@ -195,6 +208,19 @@
     "references": [
       "https://docs.python.org/3/library/contextlib.html#contextlib.suppress",
       "https://docs.python.org/3/library/exceptions.html#exception-groups"
+    ]
+  },
+  {
+    "name": "flake8",
+    "alternative": "ruff",
+    "minimum_python": "3.7",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires configuration and CI changes: map every selected rule and plugin to Ruff, translate exclusions and per-file ignores, and compare diagnostics. Ruff defaults do not enable every Flake8 rule; arbitrary Flake8 plugins are not loaded. Retain checks without equivalents. The installation floor is for Ruff 0.16.9.",
+    "source": "https://docs.astral.sh/ruff/faq/#how-does-ruffs-linter-compare-to-flake8",
+    "references": [
+      "https://docs.astral.sh/ruff/configuration/",
+      "https://pypi.org/project/ruff/0.16.9/"
     ]
   },
   {
@@ -284,6 +310,19 @@
     ]
   },
   {
+    "name": "isort",
+    "alternative": "ruff",
+    "minimum_python": "3.7",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires rule configuration and CI changes: enable Ruff I rules and use ruff check --select I --fix for import sorting. ruff format alone does not sort imports. Translate supported import-section settings and inspect differences; not every isort option is supported. The installation floor is for Ruff 0.16.9.",
+    "source": "https://docs.astral.sh/ruff/faq/#how-does-ruffs-linter-compare-to-isort",
+    "references": [
+      "https://docs.astral.sh/ruff/rules/#isort-i",
+      "https://pypi.org/project/ruff/0.16.9/"
+    ]
+  },
+  {
     "name": "mock",
     "alternative": "unittest.mock",
     "minimum_python": "3.3",
@@ -305,6 +344,19 @@
     "source": "https://more-itertools.readthedocs.io/en/stable/api.html",
     "references": [
       "https://docs.python.org/3/library/itertools.html"
+    ]
+  },
+  {
+    "name": "mypy",
+    "alternative": "ty",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires configuration, suppression, and CI changes: run ty alongside mypy, translate rules to tool.ty, and compare diagnostics and type inference. Review plugin-dependent checks and library support separately; strict modes and error codes are not equivalent. The installation floor is for ty 0.0.84.",
+    "source": "https://docs.astral.sh/ty/coming-from-mypy-or-pyright/",
+    "references": [
+      "https://docs.astral.sh/ty/configuration/",
+      "https://pypi.org/project/ty/0.0.84/"
     ]
   },
   {
@@ -332,6 +384,32 @@
     ]
   },
   {
+    "name": "pip",
+    "alternative": "uv",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires workflow changes: choose uv pip for an existing requirements workflow, or uv add/lock/sync/run for a project workflow. Review indexes, credentials, constraints, environment selection, and resolver differences; uv does not invoke pip. The installation floor is for uv 0.12.20.",
+    "source": "https://docs.astral.sh/uv/pip/compatibility/",
+    "references": [
+      "https://docs.astral.sh/uv/guides/migration/pip-to-project/",
+      "https://pypi.org/project/uv/0.12.20/"
+    ]
+  },
+  {
+    "name": "pip-tools",
+    "alternative": "uv",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires workflow changes: map pip-compile/pip-sync to uv pip compile/sync, or migrate direct dependencies to pyproject.toml and use uv.lock. Preserve constraints, markers, extras, indexes, and hashes where required; compare resolved environments. The installation floor is for uv 0.12.20.",
+    "source": "https://docs.astral.sh/uv/guides/migration/pip-to-project/",
+    "references": [
+      "https://docs.astral.sh/uv/pip/compatibility/",
+      "https://pypi.org/project/uv/0.12.20/"
+    ]
+  },
+  {
     "name": "pycrypto",
     "alternative": "pycryptodome",
     "minimum_python": "3.7",
@@ -355,6 +433,19 @@
     "references": [
       "https://pypdf.readthedocs.io/en/stable/user/migration-1-to-2.html",
       "https://pypi.org/project/pypdf/6.19.0/"
+    ]
+  },
+  {
+    "name": "pyright",
+    "alternative": "ty",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires configuration, suppression, editor, and CI changes: run ty alongside Pyright, map rules and source environments, and compare diagnostics before switching. Rewrite Pyright-specific ignore comments and review severity mappings; no blanket checking parity is claimed. The installation floor is for ty 0.0.84.",
+    "source": "https://docs.astral.sh/ty/coming-from-mypy-or-pyright/",
+    "references": [
+      "https://docs.astral.sh/ty/configuration/",
+      "https://pypi.org/project/ty/0.0.84/"
     ]
   },
   {

@@ -2,7 +2,7 @@
 
 A researched catalog of Python packages with standard-library or maintained alternatives. This is the second [python-e18e](https://github.com/python-e18e) repository in the rollout, following [ecosystem-issues](https://github.com/python-e18e/ecosystem-issues). It is independent of the [CLI](https://github.com/python-e18e/cli).
 
-[`replacements.json`](replacements.json) is the source of truth: **45 entries**, researched on **2026-09-29**. Read the [research findings and evidence](RESEARCH.md) and [migration examples](MIGRATIONS.md). Inclusion does not mean a package is abandoned: some entries are optional architectural choices between maintained tools.
+[`replacements.json`](replacements.json) is the source of truth: **52 entries**, researched on **2026-09-29**. Read the [research findings and evidence](RESEARCH.md) and [migration examples](MIGRATIONS.md). Inclusion does not mean a package is abandoned: some entries are optional architectural choices between maintained tools.
 
 ## Compatibility
 
@@ -11,9 +11,13 @@ A researched catalog of Python packages with standard-library or maintained alte
 | `drop-in` | Dependency declaration changes; existing application imports and ordinary API use stay the same. Interpreter upgrades still need testing. |
 | `import-only` | Dependency and import changes cover the documented API scope. |
 | `conditional` | Only specified APIs or behavior are covered. Audit usage; extra code changes may be needed. |
-| `code-change` | Deliberate migration requiring application code rewrites and behavior tests. |
+| `code-change` | Deliberate migration requiring application, configuration, or workflow rewrites and behavior checks. |
 
-Examples: `sklearn` → `scikit-learn` is a distribution rename; `requests` → `httpx` requires code changes; `attrs` → `dataclasses` or Pydantic requires choosing and implementing different model semantics.
+Examples: `sklearn` → `scikit-learn` is a distribution rename; `requests` → `httpx` requires code changes; `attrs` → `dataclasses` or Pydantic requires choosing and implementing different model semantics. For tooling, `code-change` also covers configuration, editor, and CI workflow rewrites.
+
+## Modern project tooling
+
+See [Astral tools and pyproject.toml](TOOLING.md) for pip/pip-tools → uv, Flake8/Black/isort → Ruff, mypy/Pyright → ty, and setup.cfg/setup.py → pyproject.toml. Distribution-level tooling alternatives are in the catalog. Configuration-file migrations are documented as workflows because filenames are not installable distributions.
 
 ## Manifest fields
 
