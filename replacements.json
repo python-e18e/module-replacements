@@ -1,0 +1,30 @@
+[
+  {
+    "name": "mock",
+    "alternative": "unittest.mock",
+    "minimum_python": "3.3",
+    "guidance": "Use the standard-library mock module; update imports and run the test suite.",
+    "source": "https://docs.python.org/3/library/unittest.mock.html"
+  },
+  {
+    "name": "tomli",
+    "alternative": "tomllib",
+    "minimum_python": "3.11",
+    "guidance": "Use tomllib for reading TOML if the project no longer supports older Python versions.",
+    "source": "https://docs.python.org/3/library/tomllib.html"
+  },
+  {
+    "name": "toml",
+    "alternative": "tomllib",
+    "minimum_python": "3.11",
+    "guidance": "Use tomllib only for reading TOML; it does not write TOML.",
+    "source": "https://docs.python.org/3/library/tomllib.html"
+  },
+  {
+    "name": "backports.zoneinfo",
+    "alternative": "zoneinfo",
+    "minimum_python": "3.9",
+    "guidance": "Use zoneinfo when older Python support is gone; check time-zone data availability on deployment platforms.",
+    "source": "https://docs.python.org/3/library/zoneinfo.html"
+  }
+]
