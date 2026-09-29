@@ -1,6 +1,6 @@
 # Replacement research
 
-Research date: **2026-09-29**. Scope: 45 distribution-level suggestions, combining standard-library adoption, documented successors, and optional migrations that require application rewrites.
+Research date: **2026-09-29**. Scope: 52 distribution-level suggestions, combining standard-library adoption, documented successors, and optional migrations that require application rewrites.
 
 ## Method and evidence
 
@@ -20,6 +20,9 @@ Historical Python floors describe when a feature became available, not which Pyt
 | HTTPX 0.28.1 | ≥3.8 | [Release metadata](https://pypi.org/project/httpx/0.28.1/) |
 | Pydantic 2.13.5 | ≥3.9 | [Release metadata](https://pypi.org/project/pydantic/2.13.5/) |
 | orjson 3.12.0 | ≥3.10 | [Release metadata](https://pypi.org/project/orjson/3.12.0/) |
+| uv 0.12.20 | ≥3.8 for PyPI installation | [Release metadata](https://pypi.org/project/uv/0.12.20/) |
+| Ruff 0.16.9 | ≥3.7 for PyPI installation | [Release metadata](https://pypi.org/project/ruff/0.16.9/) |
+| ty 0.0.84 | ≥3.8 for PyPI installation | [Release metadata](https://pypi.org/project/ty/0.0.84/) |
 
 ## Standard-library opportunities
 
@@ -77,6 +80,8 @@ Avoid coinstalling fpdf/fpdf2 or pycrypto/pycryptodome because each pair shares 
 ## Broader architectural migrations
 
 Seven entries use `code-change`: requests, attrs, ujson, simplejson, pytz, python-dateutil, and more-itertools. They need application rewrites and explicit behavior checks. These do not imply that the original packages are unmaintained. See [MIGRATIONS.md](MIGRATIONS.md) for target selection, primary sources, and concrete examples.
+
+Seven additional tooling entries use `code-change`: pip, pip-tools, flake8, black, isort, mypy, and pyright. Their migrations require changes to commands, configuration, CI, and sometimes editor integration. [TOOLING.md](TOOLING.md) documents their scopes and pyproject.toml migration. Tool installation requirements are distinct from the Python version a tool manages or analyzes.
 
 ## Not admitted as whole-distribution replacements
 
