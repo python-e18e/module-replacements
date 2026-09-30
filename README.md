@@ -2,7 +2,7 @@
 
 A researched catalog of Python packages with standard-library or maintained alternatives. This is the second [python-e18e](https://github.com/python-e18e) repository in the rollout, following [ecosystem-issues](https://github.com/python-e18e/ecosystem-issues). It is independent of the [CLI](https://github.com/python-e18e/cli).
 
-[`replacements.json`](replacements.json) is the source of truth: **52 entries**, researched on **2026-09-29**. Read the [research findings and evidence](RESEARCH.md) and [migration examples](MIGRATIONS.md). Inclusion does not mean a package is abandoned: some entries are optional architectural choices between maintained tools.
+[`replacements.json`](replacements.json) is the source of truth: **53 entries**, with HTTP guidance updated on **2026-09-30** (initial research: **2026-09-29**). Read the [research findings and evidence](RESEARCH.md) and [migration examples](MIGRATIONS.md). Inclusion does not mean a package is abandoned: some entries are optional architectural choices between maintained tools.
 
 ## Compatibility
 
@@ -13,7 +13,11 @@ A researched catalog of Python packages with standard-library or maintained alte
 | `conditional` | Only specified APIs or behavior are covered. Audit usage; extra code changes may be needed. |
 | `code-change` | Deliberate migration requiring application, configuration, or workflow rewrites and behavior checks. |
 
-Examples: `sklearn` → `scikit-learn` is a distribution rename; `requests` → `httpx` requires code changes; `attrs` → `dataclasses` or Pydantic requires choosing and implementing different model semantics. For tooling, `code-change` also covers configuration, editor, and CI workflow rewrites.
+Examples: `sklearn` → `scikit-learn` is a distribution rename; `requests` → `httpx2` requires code changes; `attrs` → `dataclasses` or Pydantic requires choosing and implementing different model semantics. For tooling, `code-change` also covers configuration, editor, and CI workflow rewrites.
+
+This catalog treats `httpx` as deprecated in favor of the Pydantic-maintained [HTTPX2](https://github.com/pydantic/httpx2). See the [HTTPX → HTTPX2 recipe](MIGRATIONS.md#httpx--httpx2) for compatibility checks.
+
+[asyncio with uvloop](RESEARCH.md#asyncio-with-uvloop-optional-performance-information) is optional performance information, not a distribution migration.
 
 ## Modern project tooling
 

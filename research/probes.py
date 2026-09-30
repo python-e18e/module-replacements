@@ -10,7 +10,7 @@ import uuid
 
 import attrs
 import cached_property
-import httpx
+import httpx2
 import pydantic
 import strenum
 import tomli
@@ -63,10 +63,10 @@ def probe():
 
     def redirect(request):
         if request.url.path == "/start":
-            return httpx.Response(302, headers={"location": "/end"})
-        return httpx.Response(200)
+            return httpx2.Response(302, headers={"location": "/end"})
+        return httpx2.Response(200)
 
-    with httpx.Client(transport=httpx.MockTransport(redirect)) as client:
+    with httpx2.Client(transport=httpx2.MockTransport(redirect)) as client:
         assert client.get("https://example.test/start").status_code == 302
         assert client.get("https://example.test/start", follow_redirects=True).status_code == 200
 

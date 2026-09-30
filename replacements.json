@@ -274,6 +274,19 @@
     ]
   },
   {
+    "name": "httpx",
+    "alternative": "httpx2",
+    "minimum_python": "3.10",
+    "kind": "package",
+    "compatibility": "conditional",
+    "guidance": "This catalog treats HTTPX as deprecated in favor of the Pydantic-maintained HTTPX2 continuation. Install httpx2 and rename imports and referenced classes, including exceptions and transports; preserve extras. Direct httpcore imports become httpcore2. Audit integrations expecting HTTPX types, logging filters, and User-Agent checks. Test TLS/custom CA behavior: default verification uses the OS trust store instead of certifi. The floor is for HTTPX2 2.13.1.",
+    "source": "https://github.com/pydantic/httpx2",
+    "references": [
+      "https://github.com/pydantic/httpx2/blob/main/src/httpx2/CHANGELOG.md",
+      "https://pypi.org/project/httpx2/2.13.1/"
+    ]
+  },
+  {
     "name": "importlib-metadata",
     "alternative": "importlib.metadata",
     "minimum_python": "3.8",
@@ -475,15 +488,16 @@
   },
   {
     "name": "requests",
-    "alternative": "httpx",
-    "minimum_python": "3.8",
+    "alternative": "httpx2",
+    "minimum_python": "3.10",
     "kind": "package",
     "compatibility": "code-change",
-    "guidance": "Requires code changes: replace Session with httpx.Client, rewrite exceptions, adapters/transports, streaming, and raw body arguments. Configure redirect following and timeouts explicitly; async usage requires await and AsyncClient. Requests remains maintained. The floor is for HTTPX 0.28.1.",
-    "source": "https://www.python-httpx.org/compatibility/",
+    "guidance": "Requires code changes: replace Session with httpx2.Client, rewrite exceptions, adapters/transports, streaming, and raw body arguments. Configure redirect following and timeouts explicitly; async usage requires await and AsyncClient. Requests remains maintained. Test TLS trust settings; HTTPX2 uses the OS trust store by default. The floor is for HTTPX2 2.13.1.",
+    "source": "https://github.com/pydantic/httpx2/blob/main/docs/compatibility.md",
     "references": [
-      "https://www.python-httpx.org/async/",
-      "https://pypi.org/project/httpx/0.28.1/"
+      "https://github.com/pydantic/httpx2/blob/main/docs/async.md",
+      "https://github.com/pydantic/httpx2/blob/main/src/httpx2/CHANGELOG.md",
+      "https://pypi.org/project/httpx2/2.13.1/"
     ]
   },
   {
