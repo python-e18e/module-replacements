@@ -1,6 +1,6 @@
 # Replacement research
 
-Research date: **2026-09-29**. Scope: 52 distribution-level suggestions, combining standard-library adoption, documented successors, and optional migrations that require application rewrites.
+Initial research: **2026-09-29**; HTTPX2 and uvloop update: **2026-09-30**. Scope: 53 distribution-level suggestions, combining standard-library adoption, documented successors, and optional migrations that require application rewrites.
 
 ## Method and evidence
 
@@ -17,7 +17,7 @@ Historical Python floors describe when a feature became available, not which Pyt
 | PyCryptodome 3.23.0 | ≥3.7 on Python 3 | [Release metadata](https://pypi.org/project/pycryptodome/3.23.0/) |
 | pypdf 6.19.0 | ≥3.9 | [Release metadata](https://pypi.org/project/pypdf/6.19.0/) |
 | scikit-learn 1.9.1 | ≥3.11 | [Release metadata](https://pypi.org/project/scikit-learn/1.9.1/) |
-| HTTPX 0.28.1 | ≥3.8 | [Release metadata](https://pypi.org/project/httpx/0.28.1/) |
+| HTTPX2 2.13.1 | ≥3.10 | [Release metadata](https://pypi.org/project/httpx2/2.13.1/) |
 | Pydantic 2.13.5 | ≥3.9 | [Release metadata](https://pypi.org/project/pydantic/2.13.5/) |
 | orjson 3.12.0 | ≥3.10 | [Release metadata](https://pypi.org/project/orjson/3.12.0/) |
 | uv 0.12.20 | ≥3.8 for PyPI installation | [Release metadata](https://pypi.org/project/uv/0.12.20/) |
@@ -67,6 +67,7 @@ These are maintainer synchronization tables, not guarantees that every later ver
 
 | Migration | Evidence and scope |
 | --- | --- |
+| httpx → httpx2 | Catalog treats HTTPX as deprecated in favor of Pydantic's maintained continuation. Audit renamed imports, integrations, and the switch to OS trust stores; classified `conditional`. [Maintainer explanation](https://github.com/pydantic/httpx2), [changelog](https://github.com/pydantic/httpx2/blob/main/src/httpx2/CHANGELOG.md). |
 | sklearn → scikit-learn | Deprecated distribution alias; imports stay `sklearn`. [Maintainer notice](https://pypi.org/project/sklearn/). |
 | PyPDF2 → pypdf | Projects merged; pypdf 3.1 continues PyPDF2 3.x. Older/current major versions still require API review. [Project history](https://pypdf.readthedocs.io/en/stable/meta/history.html). |
 | fpdf → fpdf2 | Maintained successor using the same import namespace; rendering/output compatibility needs tests. [History](https://py-pdf.github.io/fpdf2/History.html). |
@@ -82,6 +83,25 @@ Avoid coinstalling fpdf/fpdf2 or pycrypto/pycryptodome because each pair shares 
 Seven entries use `code-change`: requests, attrs, ujson, simplejson, pytz, python-dateutil, and more-itertools. They need application rewrites and explicit behavior checks. These do not imply that the original packages are unmaintained. See [MIGRATIONS.md](MIGRATIONS.md) for target selection, primary sources, and concrete examples.
 
 Seven additional tooling entries use `code-change`: pip, pip-tools, flake8, black, isort, mypy, and pyright. Their migrations require changes to commands, configuration, CI, and sometimes editor integration. [TOOLING.md](TOOLING.md) documents their scopes and pyproject.toml migration. Tool installation requirements are distinct from the Python version a tool manages or analyzes.
+
+## asyncio with uvloop: optional performance information
+
+uvloop implements asyncio's event loop using libuv; it keeps the asyncio programming model and replaces the loop implementation. This is an optional runtime choice, not an asyncio migration or a reason to remove `import asyncio`. It is intentionally outside `replacements.json`: the existing `asyncio` entry only removes the obsolete PyPI stub. [uvloop documentation](https://github.com/MagicStack/uvloop).
+
+With uvloop 0.18 or newer, install `uvloop` and use `uvloop.run()` at an application entry point you control:
+
+```python
+import asyncio
+import uvloop
+
+async def main():
+    await asyncio.sleep(0)
+    return 42
+
+assert uvloop.run(main()) == 42
+```
+
+For a framework that owns the event loop, use its documented loop setting. Verify support for the selected Python and platform versions; uvloop currently does not support Windows, so retain the built-in asyncio loop there. Benchmark the actual workload before adopting it, and check cancellation, signals, subprocesses, and shutdown. Upstream networking benchmarks do not guarantee an application-level speedup. [Usage and benchmarks](https://github.com/MagicStack/uvloop), [platform restriction](https://github.com/MagicStack/uvloop/blob/master/setup.py).
 
 ## Not admitted as whole-distribution replacements
 
@@ -100,13 +120,13 @@ python validate.py
 python -m unittest discover -s tests
 ```
 
-Six targeted probes demonstrate actual mismatches: multiline TOML inline tables, StrEnum auto values, UUID8 signatures/layout, attrs conversion versus dataclass annotations and strict Pydantic validation, HTTPX redirect defaults, and reusable async property values. The probes use a mocked HTTP transport, not a network service. They are examples of compatibility limits, not project-wide migration tests.
+Six targeted probes demonstrate actual mismatches: multiline TOML inline tables, StrEnum auto values, UUID8 signatures/layout, attrs conversion versus dataclass annotations and strict Pydantic validation, HTTPX2 redirect defaults, and reusable async property values. The probes use a mocked HTTP transport, not a network service. They are examples of compatibility limits, not project-wide migration tests.
 
 ```console
 uv run --no-project --python 3.14 \
   --with tomli==2.4.1 --with StrEnum==0.4.15 \
   --with uuid6==2025.0.1 --with cached-property==2.0.1 \
-  --with attrs==26.1.0 --with pydantic==2.13.5 --with httpx==0.28.1 \
+  --with attrs==26.1.0 --with pydantic==2.13.5 --with httpx2==2.13.1 \
   python research/probes.py
 ```
 

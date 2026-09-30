@@ -2,9 +2,9 @@
 
 These recipes illustrate limited scopes. Run the project's own tests after rewriting every relevant call site.
 
-## Requests → HTTPX
+## Requests → HTTPX2
 
-Requests remains maintained. Choose HTTPX when its client model, async support, or HTTP/2 support fits the project. Changing the dependency and imports alone is insufficient.
+Requests remains maintained. Choose HTTPX2 when its client model, async support, or HTTP/2 support fits the project. Changing the dependency and imports alone is insufficient.
 
 ```python
 # Before
@@ -16,15 +16,23 @@ with requests.Session() as session:
     payload = response.json()
 
 # After: explicitly choose redirect and timeout behavior.
-import httpx
+import httpx2
 
-with httpx.Client(follow_redirects=True, timeout=10) as client:
+with httpx2.Client(follow_redirects=True, timeout=10) as client:
     response = client.get(url)
     response.raise_for_status()
     payload = response.json()
 ```
 
-Rewrite exception handlers, transport adapters, streaming, proxy configuration, and raw request bodies (`content=`). HTTPX URLs are objects; convert with `str()` where callers require strings. Async migrations use `AsyncClient` and `await` throughout the call chain. Timeout semantics need review even with the same numeric argument. [HTTPX compatibility guide](https://www.python-httpx.org/compatibility/), [async guide](https://www.python-httpx.org/async/).
+Rewrite exception handlers, transport adapters, streaming, proxy configuration, and raw request bodies (`content=`). HTTPX2 URLs are objects; convert with `str()` where callers require strings. Async migrations use `AsyncClient` and `await` throughout the call chain. Timeout semantics need review even with the same numeric argument. [HTTPX2 compatibility guide](https://github.com/pydantic/httpx2/blob/main/docs/compatibility.md), [async guide](https://github.com/pydantic/httpx2/blob/main/docs/async.md).
+
+## HTTPX → HTTPX2
+
+This catalog treats HTTPX as deprecated and recommends the Pydantic-maintained HTTPX2 continuation. Upstream describes HTTPX as seeing limited activity; this is the catalog's recommendation, not a claim of a formal upstream deprecation. [Maintainer explanation](https://github.com/pydantic/httpx2).
+
+Install `httpx2` instead of `httpx`, preserve needed extras such as `httpx2[http2]`, and change application imports to `import httpx2` (including clients, responses, exceptions, and custom transports). Direct `httpcore` imports become `httpcore2`; update logging filters and checks that depend on the default User-Agent. HTTPX2 2.13.1 requires Python 3.10 or newer. [Changelog](https://github.com/pydantic/httpx2/blob/main/src/httpx2/CHANGELOG.md), [release metadata](https://pypi.org/project/httpx2/2.13.1/).
+
+The initial fork preserved the public API apart from package names, but subsequent releases changed behavior: default TLS verification now uses the operating system's trust store instead of certifi. Test TLS/custom CA handling, proxies, streaming, and integrations or mocks that expect HTTPX classes. Dependencies that still require `httpx` need their own compatibility review before removing it. [Changelog](https://github.com/pydantic/httpx2/blob/main/src/httpx2/CHANGELOG.md).
 
 ## attrs → dataclasses or Pydantic
 
